@@ -1,8 +1,8 @@
 import argparse
 import os
 from pathlib import Path
-
 import glob
+
 import cv2
 
 from utils import rle_encode, rle_to_string

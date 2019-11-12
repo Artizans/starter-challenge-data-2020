@@ -6,7 +6,10 @@ This starter contains:
 - a scoring function for Dice Score
 - a starter project using Keras to generate predictions
 
-
+# Requirements
+- Python 3.5+
+- `numpy==1.16.1`
+- `opencv-python==3.4.5.20`
 # Helpers
 
 ### `make_rle_submission.py`
