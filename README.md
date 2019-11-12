@@ -10,19 +10,21 @@ This starter contains:
 - Python 3.5+
 - `numpy==1.16.1`
 - `opencv-python==3.4.5.20`
+- `pandas==0.23.4`
+
 # Helpers
 
 ### `make_rle_submission.py`
 Usage:
 
-    python make_rle_submission.py --mask_folder ./output --output_file submission.csv
+    python make_rle_submission.py --mask_folder ../data_challenge/output --output_path submission.csv --sample_csv_path sample_submission.csv
 
 Note that the `mask_folder` must only contain .png files with binary masks (values in [0, 1] or [0, 255])    
   
 ### `score_submission.py`
 Usage:
 
-    python score_submission.py --ground_truth_folder ../data_challenge/input/masks --submission_csv submission.csv
+    python score_submission.py --ground_truth_folder ../data_challenge/input/masks --submission_csv submission.csv --sample_csv_path sample_submission.csv
 
 # Util functions
 ### RLE decode
@@ -43,4 +45,4 @@ Usage:
     score = dice_score(grount_truth, prediction)
     
 # Starter project
-Heavily inspired from the Kaggle Carvana's third plate solution, it is a simple Keras sample allowing competitors to get started. Get started with `benchmark.ipynb`.
+Heavily inspired from the Kaggle Carvana's [third place solution](https://github.com/lyakaap/Kaggle-Carvana-3rd-Place-Solution/), it is a simple Keras sample allowing competitors to get started. Get started with `benchmark.ipynb`.

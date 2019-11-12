@@ -1,9 +1,8 @@
 import argparse
 import os
-from pathlib import Path
-import glob
 
 import cv2
+import pandas as pd
 
 from utils import rle_encode, rle_to_string
 
@@ -11,21 +10,21 @@ from utils import rle_encode, rle_to_string
 parser = argparse.ArgumentParser(description='Converts all png images from a folder into a submission')
 
 parser.add_argument("--mask_folder", help="Folder containing png masks", required=True)
-parser.add_argument("--output_file", help="Output filename", required=True)
+parser.add_argument("--output_path", help="Output path", required=True)
+parser.add_argument("--sample_csv_path", help="Sample submission csv", required=True)
 args = parser.parse_args()
 
 if __name__ == "__main__":
+    df = pd.read_csv(args.sample_csv_path)
+    mask_ids = df['img'].values
+
     encoded_strings = []
-
-    mask_paths = glob.glob(os.path.join(args.mask_folder, '*.png'))
-    print('Found {} files in folder'.format(len(mask_paths)))
-
-    with open(args.output_file, 'w') as f:
-        f.write('img,rle_mask\n')
-        for mask_path in mask_paths:
-            mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-            filename = Path(mask_path).name
-            idx = filename.replace('.png', '')
-            encoded = rle_encode(mask)
-            encoded_string = rle_to_string(encoded)
-            f.write('{},{}\n'.format(idx, encoded_string))
+    for mask_id in mask_ids:
+        mask_path = os.path.join(args.mask_folder, '{}.png'.format(mask_id))
+        mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+        encoded = rle_encode(mask)
+        encoded_string = rle_to_string(encoded)
+        encoded_strings.append(encoded_string)
+    df['rle_mask'] = encoded_strings
+    df.to_csv(args.output_path, index=False)
+    print('Wrote submission in  to {}'.format(args.output_path))
