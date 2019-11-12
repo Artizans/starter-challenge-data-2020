@@ -27,4 +27,4 @@ if __name__ == "__main__":
         encoded_strings.append(encoded_string)
     df['rle_mask'] = encoded_strings
     df.to_csv(args.output_path, index=False)
-    print('Wrote submission in  to {}'.format(args.output_path))
+    print('Wrote submission to {}'.format(args.output_path))
