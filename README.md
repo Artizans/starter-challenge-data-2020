@@ -24,7 +24,7 @@ Note that the `mask_folder` must only contain .png files with binary masks (valu
 ### `score_submission.py`
 Usage:
 
-    python score_submission.py --ground_truth_folder ../data_challenge/input/masks --submission_csv submission.csv --sample_csv_path sample_submission.csv
+    python score_submission.py --submission_csv_path submission.csv --ground_truth_csv_path ./ground_truth.csv
 
 # Util functions
 ### RLE decode
