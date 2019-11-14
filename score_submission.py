@@ -16,19 +16,26 @@ parser.add_argument("--ground_truth_csv_path", help="Ground truth submission pat
 args = parser.parse_args()
 
 
-def read_csv(csv_path):
-    df = pd.read_csv(csv_path)
+def dataframe_to_dict(df):
     mask_ids = df['img'].values
     rle_masks = df['rle_mask'].values
     id_to_mask = dict(zip(mask_ids, rle_masks))
     return mask_ids, id_to_mask
 
 
-if __name__ == "__main__":
+def score_from_csv(submission_csv, ground_truth_csv):
+    submission_df = pd.read_csv(submission_csv)
+    ground_truth_df = pd.read_csv(ground_truth_csv)
+
+    score_from_dataframe(submission_df, ground_truth_df)
+    pass
+
+
+def score_from_dataframe(submission_df, ground_truth_df):
     scores = []
 
-    _, id_to_prediction = read_csv(args.submission_csv_path)
-    sample_ids, id_to_ground_truth = read_csv(args.ground_truth_csv_path)
+    _, id_to_prediction = dataframe_to_dict(submission_df)
+    sample_ids, id_to_ground_truth = dataframe_to_dict(ground_truth_df)
 
     for mask_id in sample_ids:
         if mask_id not in id_to_prediction:
@@ -40,3 +47,6 @@ if __name__ == "__main__":
 
     print('Dice score for submission is {}'.format(np.mean(scores)))
 
+
+if __name__ == "__main__":
+    score_from_csv(args.submission_csv_path, args.ground_truth_csv_path)
